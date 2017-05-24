@@ -1,7 +1,3 @@
-'''
-A fancy looking metronome in under 200 lines of code.
-'''
-
 import pygame
 import time
 
