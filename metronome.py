@@ -26,20 +26,17 @@ class Numeral:
 
 
 #------------------------------------------------------------------------------
-def Tick(timeChange):
+def Tick(timeChange,beat):
     global accumulator
 
-    avg_delta = 1000
-
     accumulator += timeChange
-    if accumulator > avg_delta:
-        accumulator = accumulator - avg_delta
+    if accumulator > beat:
+        accumulator = accumulator - beat
         Numeral.beat()
 
-    
-
 #------------------------------------------------------------------------------
-def main():
+def start(beat):
+    beat = 1000*float(1/float(beat/60))
     pygame.init()
     clock = pygame.time.Clock()
 
@@ -48,7 +45,6 @@ def main():
 
         remainingEvents = pygame.event.get()
 
-        Tick( timeChange )
+        Tick(timeChange,beat)
 
-if __name__ == '__main__':
-	main()
+
