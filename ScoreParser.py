@@ -11,6 +11,9 @@ class ScoreParser( object ):
         self.measureCounter = 0
         self.event_dispatcher = event_dispatcher
         self.sheetFile = sheetFile
+
+        self.noteList = []
+
         self.c = self.initializeSheets()
 
         # Listen for ASK event type
@@ -31,11 +34,26 @@ class ScoreParser( object ):
 
     def analyze(self, measureCounter):
         m = self.c.parts[0].measure(measureCounter)
-
+        n = self.c.parts[1].measure(measureCounter)
         print "measure : ", measureCounter
+
+        tempDict = {}
         for notes in m.flat:
             if type(notes) is note.Note or type(notes) is chord.Chord:
-                print notes
-                print notes.offset
+                offset = float(notes.offset)
+                if offset not in tempDict:
+                    tempDict[offset] = [notes]
+                else:
+                    tempDict[offset].append(notes)
+
+        for notes in n.flat:
+            if type(notes) is note.Note or type(notes) is chord.Chord:
+                offset = float(notes.offset)
+                if notes.offset not in tempDict:
+                    tempDict[notes.offset] = [notes]
+                else:
+                    tempDict[notes.offset].append(notes)
+
+        self.noteList.append(tempDict)
 
 
